@@ -1,0 +1,5 @@
+streamlit
+pandas
+numpy
+altair==4.1.0
+vega_datasets
