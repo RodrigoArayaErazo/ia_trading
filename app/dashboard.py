@@ -32,4 +32,19 @@ except Exception as e:
 # Información general
 st.markdown("---")
 st.markdown("🔄 Los datos se actualizan automáticamente cada vez que la IA recibe un nuevo precio.")
+# Leer última señal
+try:
+    senales = pd.read_csv("data/senales.csv")
+    ultima = senales.iloc[-1]
+
+    st.subheader("🧠 Señal IA más reciente:")
+    st.markdown(f"""
+    - 📅 Fecha: **{ultima['timestamp']}**
+    - 🧭 Señal: **{'🟢 LONG' if ultima['senal'] == 'LONG' else '🔴 SHORT'}**
+    - 🎯 Entrada: **${ultima['precio_entrada']:.4f}**
+    - 📈 Take Profit: **${ultima['take_profit']:.4f}**
+    - 📉 Stop Loss: **${ultima['stop_loss']:.4f}**
+    """)
+except Exception as e:
+    st.warning(f"No se pudo cargar la señal más reciente: {e}")
 

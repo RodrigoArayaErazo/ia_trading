@@ -59,3 +59,19 @@ if __name__ == "__main__":
         precios = esperar_nuevo_dato(ultimo_ts)
         ultimo_ts = precios['timestamp'].values[-1]
         hacer_estrategia(precios)
+# Guardar en senales.csv
+nueva_senal = pd.DataFrame([{
+    "timestamp": timestamp,
+    "precio_entrada": precio_entrada,
+    "senal": "LONG" if prediccion[0][0] > 0.5 else "SHORT",
+    "take_profit": tp,
+    "stop_loss": sl
+}])
+
+try:
+    historial = pd.read_csv("data/senales.csv")
+    historial = pd.concat([historial, nueva_senal], ignore_index=True)
+except FileNotFoundError:
+    historial = nueva_senal
+
+historial.to_csv("data/senales.csv", index=False)
